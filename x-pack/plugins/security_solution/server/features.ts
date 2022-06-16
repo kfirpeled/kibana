@@ -10,6 +10,10 @@ import { i18n } from '@kbn/i18n';
 import { KibanaFeatureConfig, SubFeatureConfig } from '@kbn/features-plugin/common';
 import { DEFAULT_APP_CATEGORIES } from '@kbn/core/server';
 import { DATA_VIEW_SAVED_OBJECT_TYPE } from '@kbn/data-views-plugin/common';
+import {
+  cspRuleAssetSavedObjectType,
+  PLUGIN_ID as CSP_PLUGIN_ID,
+} from '@kbn/cloud-security-posture-plugin/common';
 import { APP_ID, CASES_FEATURE_ID, SERVER_APP_ID } from '../common/constants';
 import { savedObjectTypes } from './saved_objects';
 
@@ -107,7 +111,7 @@ export const getKibanaPrivilegesFeaturePrivileges = (ruleTypes: string[]): Kiban
   }),
   order: 1100,
   category: DEFAULT_APP_CATEGORIES.security,
-  app: [APP_ID, 'kibana'],
+  app: [APP_ID, CSP_PLUGIN_ID, 'kibana'],
   catalogue: [APP_ID],
   management: {
     insightsAndAlerting: ['triggersActions'],
@@ -116,7 +120,7 @@ export const getKibanaPrivilegesFeaturePrivileges = (ruleTypes: string[]): Kiban
   subFeatures: [],
   privileges: {
     all: {
-      app: [APP_ID, 'kibana'],
+      app: [APP_ID, CSP_PLUGIN_ID, 'kibana'],
       catalogue: [APP_ID],
       api: [APP_ID, 'lists-all', 'lists-read', 'lists-summary', 'rac'],
       savedObject: {
@@ -126,6 +130,7 @@ export const getKibanaPrivilegesFeaturePrivileges = (ruleTypes: string[]): Kiban
           'exception-list-agnostic',
           DATA_VIEW_SAVED_OBJECT_TYPE,
           ...savedObjectTypes,
+          cspRuleAssetSavedObjectType,
         ],
         read: [],
       },
