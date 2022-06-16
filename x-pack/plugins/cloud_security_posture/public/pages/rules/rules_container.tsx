@@ -22,6 +22,7 @@ import {
 import * as TEST_SUBJECTS from './test_subjects';
 import { RuleFlyout } from './rules_flyout';
 import { DATA_UPDATE_INFO } from './translations';
+import { useKibana } from '../../common/hooks/use_kibana';
 
 interface RulesPageData {
   rules_page: RuleSavedObject[];
@@ -121,6 +122,7 @@ export const RulesContainer = () => {
   );
 
   const hasChanges = !!changedRules.size;
+  const userCanUpdate = useKibana().services.application.capabilities.siem.crud as boolean;
 
   const selectAll = () => {
     if (!tableRef.current) return;
@@ -140,13 +142,16 @@ export const RulesContainer = () => {
       )
     );
 
-  const bulkToggleRules = (enabled: boolean) =>
+  const bulkToggleRules = (enabled: boolean) => {
+    if (!userCanUpdate) return;
+
     toggleRules(
       isAllSelected
         ? rulesPageData.all_rules
         : visibleSelectedRulesIds.map((ruleId) => rulesPageData.rules_map.get(ruleId)!),
       enabled
     );
+  };
 
   const toggleRule = (rule: RuleSavedObject) => toggleRules([rule], !rule.attributes.enabled);
 
@@ -189,6 +194,7 @@ export const RulesContainer = () => {
           totalRulesCount={rulesPageData.all_rules.length}
           isSearching={status === 'loading'}
           lastModified={rulesPageData.lastModified}
+          userCanUpdate={userCanUpdate}
         />
         <EuiSpacer />
         <RulesTable

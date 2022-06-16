@@ -148,7 +148,7 @@ export const getKibanaPrivilegesFeaturePrivileges = (ruleTypes: string[]): Kiban
       ui: ['show', 'crud'],
     },
     read: {
-      app: [APP_ID, 'kibana'],
+      app: [APP_ID, CSP_PLUGIN_ID, 'kibana'],
       catalogue: [APP_ID],
       api: [APP_ID, 'lists-read', 'rac'],
       savedObject: {
@@ -158,6 +158,7 @@ export const getKibanaPrivilegesFeaturePrivileges = (ruleTypes: string[]): Kiban
           'exception-list-agnostic',
           DATA_VIEW_SAVED_OBJECT_TYPE,
           ...savedObjectTypes,
+          cspRuleAssetSavedObjectType,
         ],
       },
       alerting: {

@@ -124,6 +124,10 @@ export const defineUpdateRulesConfigRoute = (router: CspRouter, cspContext: CspA
     {
       path: UPDATE_RULES_CONFIG_ROUTE_PATH,
       validate: { body: configurationUpdateInputSchema },
+      options: {
+        authRequired: true,
+        tags: ['access:securitySolution', 'access:lists-all'],
+      },
     },
     async (context, request, response) => {
       if (!(await context.fleet).authz.fleet.all) {

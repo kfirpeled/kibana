@@ -41,6 +41,10 @@ export const defineGetComplianceDashboardRoute = (
     {
       path: STATS_ROUTE_PATH,
       validate: false,
+      options: {
+        authRequired: true,
+        tags: ['access:securitySolution', 'access:lists-read'],
+      },
     },
     async (context, _, response) => {
       try {

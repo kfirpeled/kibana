@@ -6,5 +6,7 @@
  */
 
 export { cspRuleAssetSavedObjectType } from './constants';
-export const PLUGIN_ID = 'csp';
+// export { APP_ID as SECURITY_SOLUTION_ID } from '@kbn/security-solution-plugin/common/constants';
+export const SECURITY_SOLUTION_ID = 'securitySolution';
+export const PLUGIN_ID = 'cloud_security_posture';
 export const PLUGIN_NAME = 'Cloud Security';

@@ -32,6 +32,7 @@ interface RulesTableToolbarProps {
   selectedRulesCount: number;
   searchValue: string;
   isSearching: boolean;
+  userCanUpdate: boolean;
   lastModified: string | null;
 }
 
@@ -65,6 +66,7 @@ export const RulesTableHeader = ({
   searchValue,
   isSearching,
   lastModified,
+  userCanUpdate,
 }: RulesTableToolbarProps) => (
   <div>
     {lastModified && <LastModificationLabel lastModified={lastModified} />}
@@ -80,6 +82,7 @@ export const RulesTableHeader = ({
         bulkEnable={bulkEnable}
         bulkDisable={bulkDisable}
         selectedRulesCount={selectedRulesCount}
+        userCanUpdate={userCanUpdate}
       />
       <RefreshButton onClick={refresh} />
       <SearchField isSearching={isSearching} searchValue={searchValue} search={search} />
@@ -113,20 +116,24 @@ const BulkMenu = ({
   bulkEnable,
   bulkDisable,
   selectedRulesCount,
-}: Pick<RulesTableToolbarProps, 'bulkDisable' | 'bulkEnable' | 'selectedRulesCount'>) => (
+  userCanUpdate,
+}: Pick<
+  RulesTableToolbarProps,
+  'bulkDisable' | 'bulkEnable' | 'selectedRulesCount' | 'userCanUpdate'
+>) => (
   <EuiFlexItem grow={false}>
     <RulesBulkActionsMenu
       items={[
         {
           icon: 'eye',
-          disabled: !selectedRulesCount,
+          disabled: !selectedRulesCount || !userCanUpdate,
           children: <ActivateRulesMenuItemText count={selectedRulesCount} />,
           'data-test-subj': TEST_SUBJECTS.CSP_RULES_TABLE_BULK_ENABLE_BUTTON,
           onClick: bulkEnable,
         },
         {
           icon: 'eyeClosed',
-          disabled: !selectedRulesCount,
+          disabled: !selectedRulesCount || !userCanUpdate,
           children: <DeactivateRulesMenuItemText count={selectedRulesCount} />,
           'data-test-subj': TEST_SUBJECTS.CSP_RULES_TABLE_BULK_DISABLE_BUTTON,
           onClick: bulkDisable,

@@ -36,6 +36,10 @@ export const defineGetCspSetupStatusRoute = (router: CspRouter, cspContext: CspA
     {
       path: INFO_ROUTE_PATH,
       validate: false,
+      options: {
+        authRequired: true,
+        tags: ['access:securitySolution', 'access:lists-read'],
+      },
     },
     async (context, _, response) => {
       try {

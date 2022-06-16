@@ -19,6 +19,7 @@ import type { RulesState } from './rules_container';
 import * as TEST_SUBJECTS from './test_subjects';
 import * as TEXT from './translations';
 import type { RuleSavedObject } from './use_csp_rules';
+import { useKibana } from '../../common/hooks/use_kibana';
 
 type RulesTableProps = Pick<
   RulesState,
@@ -48,9 +49,10 @@ export const RulesTable = ({
   selectedRuleId,
 }: RulesTableProps) => {
   const { euiTheme } = useEuiTheme();
+  const userCanUpdate = useKibana().services.application.capabilities.siem.crud as boolean;
   const columns = useMemo(
-    () => getColumns({ toggleRule, setSelectedRuleId }),
-    [setSelectedRuleId, toggleRule]
+    () => getColumns({ toggleRule, setSelectedRuleId, userCanUpdate }),
+    [setSelectedRuleId, toggleRule, userCanUpdate]
   );
 
   const euiPagination: EuiBasicTableProps<RuleSavedObject>['pagination'] = {
@@ -101,11 +103,13 @@ export const RulesTable = ({
 
 interface GetColumnProps extends Pick<RulesTableProps, 'setSelectedRuleId'> {
   toggleRule: (rule: RuleSavedObject) => void;
+  userCanUpdate: boolean;
 }
 
 const getColumns = ({
   toggleRule,
   setSelectedRuleId,
+  userCanUpdate,
 }: GetColumnProps): Array<EuiTableFieldDataColumnType<RuleSavedObject>> => [
   {
     field: 'attributes.name',
@@ -143,6 +147,7 @@ const getColumns = ({
     render: (enabled, rule) => (
       <EuiSwitch
         showLabel={false}
+        disabled={!userCanUpdate}
         label={enabled ? TEXT.DISABLE : TEXT.ENABLE}
         checked={enabled}
         onChange={() => toggleRule(rule)}
