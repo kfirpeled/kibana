@@ -8,6 +8,7 @@
 import React, { useCallback } from 'react';
 import { Filter } from '@kbn/es-query';
 import { i18n } from '@kbn/i18n';
+import { RELATED_ENTITY, ENTITY_ID, ENTITY_TARGET_ID } from '@kbn/cloud-security-posture-common';
 import { useNodeExpandGraphPopover } from './use_node_expand_graph_popover';
 import { getNodeDocumentMode, type NodeProps } from '../../..';
 import {
@@ -21,7 +22,6 @@ import {
   ItemExpandPopoverListItemProps,
   SeparatorExpandPopoverListItemProps,
 } from './list_group_graph_popover';
-import { ACTOR_ENTITY_ID, RELATED_ENTITY, TARGET_ENTITY_ID } from '../../common/constants';
 import { addFilter, containsFilter, removeFilter } from './search_filters';
 
 type NodeToggleAction = 'show' | 'hide';
@@ -56,9 +56,9 @@ export const useEntityNodeExpandPopover = (
   const onToggleActionsByEntityClick = useCallback(
     (node: NodeProps, action: NodeToggleAction) => {
       if (action === 'show') {
-        setSearchFilters((prev) => addFilter(dataViewId, prev, ACTOR_ENTITY_ID, node.id));
+        setSearchFilters((prev) => addFilter(dataViewId, prev, ENTITY_ID, node.id));
       } else if (action === 'hide') {
-        setSearchFilters((prev) => removeFilter(prev, ACTOR_ENTITY_ID, node.id));
+        setSearchFilters((prev) => removeFilter(prev, ENTITY_ID, node.id));
       }
     },
     [dataViewId, setSearchFilters]
@@ -67,9 +67,9 @@ export const useEntityNodeExpandPopover = (
   const onToggleActionsOnEntityClick = useCallback(
     (node: NodeProps, action: NodeToggleAction) => {
       if (action === 'show') {
-        setSearchFilters((prev) => addFilter(dataViewId, prev, TARGET_ENTITY_ID, node.id));
+        setSearchFilters((prev) => addFilter(dataViewId, prev, ENTITY_TARGET_ID, node.id));
       } else if (action === 'hide') {
-        setSearchFilters((prev) => removeFilter(prev, TARGET_ENTITY_ID, node.id));
+        setSearchFilters((prev) => removeFilter(prev, ENTITY_TARGET_ID, node.id));
       }
     },
     [dataViewId, setSearchFilters]
@@ -79,10 +79,10 @@ export const useEntityNodeExpandPopover = (
     (
       node: NodeProps
     ): Array<ItemExpandPopoverListItemProps | SeparatorExpandPopoverListItemProps> => {
-      const actionsByEntityAction = containsFilter(searchFilters, ACTOR_ENTITY_ID, node.id)
+      const actionsByEntityAction = containsFilter(searchFilters, ENTITY_ID, node.id)
         ? 'hide'
         : 'show';
-      const actionsOnEntityAction = containsFilter(searchFilters, TARGET_ENTITY_ID, node.id)
+      const actionsOnEntityAction = containsFilter(searchFilters, ENTITY_TARGET_ID, node.id)
         ? 'hide'
         : 'show';
       const relatedEntitiesAction = containsFilter(searchFilters, RELATED_ENTITY, node.id)

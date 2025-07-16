@@ -10,6 +10,7 @@ import {
   DOCUMENT_TYPE_ALERT,
   DOCUMENT_TYPE_EVENT,
 } from '@kbn/cloud-security-posture-common/types/graph/v1';
+import { ENTITY_ID, ENTITY_TARGET_ID } from '@kbn/cloud-security-posture-common/constants';
 import type { EsqlToRecords } from '@elastic/elasticsearch/lib/helpers';
 import type { EsQuery, GraphEdge, OriginEventId } from './types';
 
@@ -32,7 +33,7 @@ export const fetchGraph = async ({
 }): Promise<EsqlToRecords<GraphEdge>> => {
   const originAlertIds = originEventIds.filter((originEventId) => originEventId.isAlert);
   const query = `FROM logs-* METADATA _id, _index
-| WHERE event.action IS NOT NULL AND actor.entity.id IS NOT NULL
+| WHERE event.action IS NOT NULL AND ${ENTITY_ID} IS NOT NULL
 // Origin event and alerts allow us to identify the start position of graph traversal
 | EVAL isOrigin = ${
     originEventIds.length > 0
@@ -58,9 +59,9 @@ export const fetchGraph = async ({
   ips = VALUES(related.ip),
   // hosts = VALUES(related.hosts),
   users = VALUES(related.user)
-    BY actorIds = actor.entity.id,
+    BY actorIds = ${ENTITY_ID},
       action = event.action,
-      targetIds = target.entity.id,
+      targetIds = ${ENTITY_TARGET_ID},
       isOrigin,
       isOriginAlert
 | LIMIT 1000
@@ -107,7 +108,7 @@ const buildDslFilter = (
         : [
             {
               exists: {
-                field: 'target.entity.id',
+                field: ENTITY_TARGET_ID,
               },
             },
           ]),

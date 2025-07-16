@@ -7,6 +7,12 @@
 
 import type { TimelineEventsDetailsItem } from '@kbn/timelines-plugin/common';
 import type { EcsSecurityExtension as Ecs } from '@kbn/securitysolution-ecs';
+import {
+  ENTITY_ID,
+  ENTITY_TARGET_ID,
+  EVENT_ACTION,
+  EVENT_ID,
+} from '@kbn/cloud-security-posture-common';
 import { get } from 'lodash/fp';
 import type { GetFieldsData } from './use_get_fields_data';
 import { getField, getFieldArray } from '../utils';
@@ -78,12 +84,12 @@ export const useGraphPreview = ({
 }: UseGraphPreviewParams): UseGraphPreviewResult => {
   const timestamp = getField(getFieldsData('@timestamp'));
   const originalEventId = getFieldsData('kibana.alert.original_event.id');
-  const eventId = getFieldsData('event.id');
+  const eventId = getFieldsData(EVENT_ID);
   const eventIds = originalEventId ? getFieldArray(originalEventId) : getFieldArray(eventId);
 
-  const actorIds = getFieldArray(getFieldsData('actor.entity.id'));
-  const targetIds = getFieldArray(getFieldsData('target.entity.id'));
-  const action: string[] | undefined = get(['event', 'action'], ecsData);
+  const actorIds = getFieldArray(getFieldsData(ENTITY_ID));
+  const targetIds = getFieldArray(getFieldsData(ENTITY_TARGET_ID));
+  const action: string[] | undefined = get(EVENT_ACTION.split('.'), ecsData);
   const hasGraphRepresentation =
     Boolean(timestamp) &&
     Boolean(action?.length) &&

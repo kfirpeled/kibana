@@ -150,7 +150,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     match_phrase: {
-                      'actor.entity.id': 'admin@example.com',
+                      'entity.id': 'admin@example.com',
                     },
                   },
                 ],
@@ -322,7 +322,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     match_phrase: {
-                      'actor.entity.id': 'admin2@example.com',
+                      'entity.id': 'admin2@example.com',
                     },
                   },
                 ],
@@ -371,7 +371,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     match_phrase: {
-                      'actor.entity.id': 'admin@example.com',
+                      'entity.id': 'admin@example.com',
                     },
                   },
                 ],
@@ -465,7 +465,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     match_phrase: {
-                      'actor.entity.id': 'admin2@example.com',
+                      'entity.id': 'admin2@example.com',
                     },
                   },
                 ],
@@ -518,7 +518,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     match_phrase: {
-                      'actor.entity.id': 'admin5@example.com',
+                      'entity.id': 'admin5@example.com',
                     },
                   },
                 ],
@@ -544,7 +544,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     match_phrase: {
-                      'actor.entity.id': 'admin5@example.com',
+                      'entity.id': 'admin5@example.com',
                     },
                   },
                 ],
@@ -570,7 +570,7 @@ export default function (providerContext: FtrProviderContext) {
                 filter: [
                   {
                     exists: {
-                      field: 'actor.entity.id',
+                      field: 'entity.id',
                     },
                   },
                 ],

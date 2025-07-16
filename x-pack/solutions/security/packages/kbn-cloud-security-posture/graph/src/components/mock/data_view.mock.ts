@@ -12,7 +12,7 @@ export const mockDataView = {
   title: 'test-*',
   fields: [
     {
-      name: 'actor.entity.id',
+      name: 'entity.id',
       type: 'string',
       esTypes: ['keyword'],
       aggregatable: true,
@@ -20,7 +20,7 @@ export const mockDataView = {
       searchable: true,
     },
     {
-      name: 'target.entity.id',
+      name: 'entity.target.id',
       type: 'string',
       esTypes: ['keyword'],
       aggregatable: true,

@@ -18,9 +18,9 @@ const alertMockGetFieldsData: GetFieldsData = (field: string) => {
     return 'alertId';
   } else if (field === 'kibana.alert.original_event.id') {
     return 'eventId';
-  } else if (field === 'actor.entity.id') {
+  } else if (field === 'entity.id') {
     return 'actorId';
-  } else if (field === 'target.entity.id') {
+  } else if (field === 'entity.target.id') {
     return 'targetId';
   }
 
@@ -36,9 +36,9 @@ const eventMockGetFieldsData: GetFieldsData = (field: string) => {
     return;
   } else if (field === 'event.id') {
     return 'eventId';
-  } else if (field === 'actor.entity.id') {
+  } else if (field === 'entity.id') {
     return 'actorId';
-  } else if (field === 'target.entity.id') {
+  } else if (field === 'entity.target.id') {
     return 'targetId';
   }
 
@@ -50,7 +50,7 @@ const eventMockDataFormattedForFieldBrowser: TimelineEventsDetailsItem[] = [];
 describe('useGraphPreview', () => {
   it(`should return false when missing actor`, () => {
     const getFieldsData: GetFieldsData = (field: string) => {
-      if (field === 'actor.entity.id') {
+      if (field === 'entity.id') {
         return;
       }
       return alertMockGetFieldsData(field);
@@ -104,7 +104,7 @@ describe('useGraphPreview', () => {
 
   it(`should return false when missing target`, () => {
     const getFieldsData: GetFieldsData = (field: string) => {
-      if (field === 'target.entity.id') {
+      if (field === 'entity.target.id') {
         return;
       }
       return alertMockGetFieldsData(field);
@@ -230,9 +230,9 @@ describe('useGraphPreview', () => {
         return;
       } else if (field === 'event.id') {
         return ['id1', 'id2'];
-      } else if (field === 'actor.entity.id') {
+      } else if (field === 'entity.id') {
         return ['actorId1', 'actorId2'];
-      } else if (field === 'target.entity.id') {
+      } else if (field === 'entity.target.id') {
         return ['targetId1', 'targetId2'];
       }
 
@@ -294,9 +294,9 @@ describe('useGraphPreview', () => {
         return 'alertId';
       } else if (field === 'kibana.alert.original_event.id') {
         return ['id1', 'id2'];
-      } else if (field === 'actor.entity.id') {
+      } else if (field === 'entity.id') {
         return ['actorId1', 'actorId2'];
-      } else if (field === 'target.entity.id') {
+      } else if (field === 'entity.target.id') {
         return ['targetId1', 'targetId2'];
       }
 
